@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ANSFriendListViewController" customModule="ANSViewControllerTables">
+            <connections>
+                <outlet property="rightSwipeGesture" destination="klo-zq-qHs" id="TdX-cz-P0j"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ANSFriendListView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="djj-HE-MvU">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <gestureRecognizers/>
+                    <color key="separatorColor" red="0.036595266312360764" green="0.02572409063577652" blue="0.060589119791984558" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <searchBar key="tableHeaderView" contentMode="redraw" barStyle="black" searchBarStyle="minimal" placeholder="text for searching" id="ca3-ih-41w">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <color key="barTintColor" red="0.45897796750068665" green="0.17941854894161224" blue="0.069654457271099091" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                        <connections>
+                            <outlet property="delegate" destination="-1" id="zuz-dj-u6w"/>
+                        </connections>
+                    </searchBar>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="px9-KJ-Guf"/>
+                        <outlet property="delegate" destination="-1" id="Osw-w8-Xx9"/>
+                        <outletCollection property="gestureRecognizers" destination="klo-zq-qHs" appends="YES" id="uB0-pi-Gla"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="0.99455416202545166" green="0.99010658264160156" blue="0.98990476131439209" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <connections>
+                <outlet property="searchBar" destination="ca3-ih-41w" id="NKJ-er-X0W"/>
+                <outlet property="tableView" destination="djj-HE-MvU" id="ww1-zZ-qjO"/>
+            </connections>
+            <point key="canvasLocation" x="142.5" y="301.5"/>
+        </view>
+        <swipeGestureRecognizer direction="right" id="klo-zq-qHs">
+            <connections>
+                <action selector="onRightSwipe:" destination="-1" id="yet-yJ-dQe"/>
+                <outlet property="delegate" destination="-1" id="hx1-Mz-kuf"/>
+            </connections>
+        </swipeGestureRecognizer>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
+    </simulatedMetricsContainer>
+</document>

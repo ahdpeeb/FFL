@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ANSMapViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ANSMapView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lAb-1t-o68">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="692"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="6DS-AU-dcu"/>
+                    </connections>
+                </mapView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y2L-R7-ZVN">
+                    <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem title="Return" style="done" id="0ic-qc-Lme">
+                            <color key="tintColor" red="0.0" green="0.05686903030188066" blue="0.71605468750000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="Return:" destination="-1" id="hSe-pd-uFk"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="db8-ri-EW4"/>
+                        <barButtonItem tag="2" image="targetLocation" id="sTg-cj-FnT">
+                            <connections>
+                                <action selector="friendLocation:" destination="-1" id="0LM-GD-CRk"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="19" style="plain" systemItem="fixedSpace" id="fuk-iK-jbf"/>
+                        <barButtonItem tag="3" image="friendsLocation" id="ns5-lm-f4E">
+                            <connections>
+                                <action selector="friendsLocation:" destination="-1" id="PKr-Rn-PEd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="19" style="plain" systemItem="fixedSpace" id="wGY-AL-mcQ"/>
+                        <barButtonItem tag="1" image="userLocation" id="EFt-nn-bxs">
+                            <connections>
+                                <action selector="userLocation:" destination="-1" id="UbM-nR-4VL"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <connections>
+                <outlet property="map" destination="lAb-1t-o68" id="HiJ-6H-MGn"/>
+            </connections>
+            <point key="canvasLocation" x="35.5" y="54.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="friendsLocation" width="43" height="43"/>
+        <image name="targetLocation" width="43" height="43"/>
+        <image name="userLocation" width="43" height="43"/>
+    </resources>
+</document>
