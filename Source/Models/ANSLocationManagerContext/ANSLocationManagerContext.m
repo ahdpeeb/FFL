@@ -105,8 +105,7 @@ static const    int64_t kANSTimeInterval  = 5;
 #pragma mark Public Methods
 
 - (void)askAutorizationStatus {
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    if (status == kCLAuthorizationStatusNotDetermined) {
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
         [self.locationManager requestWhenInUseAuthorization];
     }
 }

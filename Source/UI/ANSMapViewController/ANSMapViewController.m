@@ -1,4 +1,4 @@
-//
+    //
 //  ANSMapViewController.m
 //  Objective-C UI Project
 //
@@ -16,6 +16,7 @@
 #import "ANSLocationManagerContext.h"
 
 #import "NSBundle+ANSExtenison.h"
+#import "MKMapView+Extension.h"
 
 #import "ANSMacros.h"
 
@@ -23,15 +24,15 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
 
 @interface ANSMapViewController ()
 @property (nonatomic, readonly) CLLocation         *friendLocation;
-@property (nonatomic, assign)   CLLocation         *userLocationOnMap;
-@property (nonatomic, assign)   CLLocationDistance distace;
+@property (nonatomic, assign)   CLLocation         *userLocation;
+@property (nonatomic, assign)   CLLocationDistance  distace;
 @property (nonatomic, strong)   NSHashTable        *annotationViews;
 @property (nonatomic, strong)   MKPolyline         *route;
-@property (nonatomic, assign)   BOOL               shouldDrawRoute;
+@property (nonatomic, assign)   BOOL                shouldDrawRoute;
 
 - (void)showFriendOnMap;
 - (CLLocationDistance)distanseToUserLocation:(CLLocation *)userLocation;
-- (void)resizeViewsWithLatitudeDelte:(CLLocationDegrees)latitudeDelta;
+- (void)resizeViewsWithZoomLvl:(double)zoomLvl;
 - (void)setRegionWithCenter:(CLLocationCoordinate2D)center distance:(CLLocationDistance)distance;
 - (void)updateRegionWithDistanceDelte:(CLLocationDistance)distanceDelte;
 
@@ -103,7 +104,7 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
 }
 
 - (IBAction)userLocation:(UIBarButtonItem *)sender {
-     [self setRegionWithCenter:self.userLocationOnMap.coordinate
+     [self setRegionWithCenter:self.userLocation.coordinate
                       distance:ANSDistance];
 }
 
@@ -129,13 +130,9 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
     return [self.friendLocation distanceFromLocation:userLocation];
 }
 
-- (void)resizeViewsWithLatitudeDelte:(CLLocationDegrees)latitudeDelta {
-    CGFloat value = 1 - (latitudeDelta + 10) / 50;
-    if (latitudeDelta > 20) {
-        value = 0.3;
-    }
-    
-    CGAffineTransform transform = CGAffineTransformMakeScale(value, value);
+- (void)    :(double)zoomLvl {
+    double scale = -1 * sqrt((double)(1 - pow((zoomLvl/20.0), 2.0))) + 1.1;
+    CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
     for (UIView *view in self.annotationViews) {
         [UIView animateWithDuration:0.5 animations:^{
             view.transform = transform;
@@ -150,11 +147,11 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
 }
 
 - (void)updateRegionWithDistanceDelte:(CLLocationDistance)distanceDelte {
-    CLLocation *userLocation = self.userLocationOnMap;
+    CLLocation *userLocation = self.userLocation;
     CLLocationDistance newDistance = [self distanseToUserLocation:userLocation];
     if (!self.distace || newDistance > self.distace + distanceDelte || newDistance < self.distace - distanceDelte) {
         self.distace = newDistance;
-        [self setRegionWithCenter:self.userLocationOnMap.coordinate
+        [self setRegionWithCenter:self.userLocation.coordinate
                          distance: newDistance * 2.25];
     }
 }
@@ -162,7 +159,7 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
 - (void)drawRoute {
     CLLocationCoordinate2D coordinateArray[2];
     coordinateArray[0] = self.friendLocation.coordinate;
-    coordinateArray[1] = self.userLocationOnMap.coordinate;
+    coordinateArray[1] = self.userLocation.coordinate;
     MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinateArray count:2];
     self.route = route;
 }
@@ -171,12 +168,11 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
 #pragma mark MKMapViewDelegate protocol
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    double latitudeDelta = mapView.region.span.latitudeDelta;
-    [self resizeViewsWithLatitudeDelte:latitudeDelta];
+    [self resizeViewsWithZoomLvl:[mapView zoomLevel]];
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-    self.userLocationOnMap = userLocation.location;
+    self.userLocation = userLocation.location;
     [self updateRegionWithDistanceDelte:ANSAutoResizeDistance];
     self.shouldDrawRoute ? [self drawRoute] : [self setRoute:nil];
 }

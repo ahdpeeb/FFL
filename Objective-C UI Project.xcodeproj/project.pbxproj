@@ -84,6 +84,7 @@
 		934DB2D01DB5160900588924 /* ANSQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 934DB2311DB5160900588924 /* ANSQueue.m */; };
 		934DB2D11DB5160900588924 /* Objective-C UI Project.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 934DB2911DB5160900588924 /* Objective-C UI Project.xcdatamodeld */; };
 		9382A6491DA56693007E8D36 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9382A6481DA56693007E8D36 /* CoreLocation.framework */; };
+		938B09351E1F849400121E02 /* MKMapView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 938B09341E1F849400121E02 /* MKMapView+Extension.m */; };
 		93C084351D3E380D0077A81C /* ANSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C084321D3E380D0077A81C /* ANSAppDelegate.m */; };
 		93C084371D3E380D0077A81C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C084341D3E380D0077A81C /* main.m */; };
 		93D31DDA1DD08199001D1ECD /* ANSFBFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D31DD61DD08199001D1ECD /* ANSFBFriends.m */; };
@@ -250,6 +251,8 @@
 		934DB2921DB5160900588924 /* Objective-C UI Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Objective-C UI Project.xcdatamodel"; sourceTree = "<group>"; };
 		934DB2941DB5160900588924 /* ANSJSONRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANSJSONRepresentation.h; sourceTree = "<group>"; };
 		9382A6481DA56693007E8D36 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		938B09331E1F849400121E02 /* MKMapView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+Extension.h"; sourceTree = "<group>"; };
+		938B09341E1F849400121E02 /* MKMapView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+Extension.m"; sourceTree = "<group>"; };
 		93C084071D3E367F0077A81C /* Objective-C UI Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Objective-C UI Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C084261D3E36800077A81C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93C084311D3E380D0077A81C /* ANSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANSAppDelegate.h; sourceTree = "<group>"; };
@@ -527,6 +530,7 @@
 		934DB1A71DB5160800588924 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				938B09321E1F847F00121E02 /* MKMapView */,
 				934DB1A81DB5160800588924 /* ANSMutableDictionary */,
 				934DB1AB1DB5160800588924 /* ANSTimer */,
 				934DB1B01DB5160900588924 /* NSArray */,
@@ -1659,6 +1663,15 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		938B09321E1F847F00121E02 /* MKMapView */ = {
+			isa = PBXGroup;
+			children = (
+				938B09331E1F849400121E02 /* MKMapView+Extension.h */,
+				938B09341E1F849400121E02 /* MKMapView+Extension.m */,
+			);
+			path = MKMapView;
+			sourceTree = "<group>";
+		};
 		93C083FE1D3E367F0077A81C = {
 			isa = PBXGroup;
 			children = (
@@ -1815,7 +1828,7 @@
 		93C083FF1D3E367F0077A81C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Andriiev.Mykola;
 				TargetAttributes = {
 					93C084061D3E367F0077A81C = {
@@ -1933,6 +1946,7 @@
 				934DB29F1DB5160900588924 /* ANSTableViewCell.m in Sources */,
 				934DB29D1DB5160900588924 /*  ANSMasterViewController.m in Sources */,
 				93387D371DBE2692005090D7 /* ANSImageView+ANSExtension.m in Sources */,
+				938B09351E1F849400121E02 /* MKMapView+Extension.m in Sources */,
 				934DB2D11DB5160900588924 /* Objective-C UI Project.xcdatamodeld in Sources */,
 				934DB2951DB5160900588924 /* ANSGCD.m in Sources */,
 				93387D1A1DBBF66A005090D7 /* ANSFriendListViewController.m in Sources */,
@@ -2045,10 +2059,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos10.1;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -2085,10 +2099,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos10.1;
+				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

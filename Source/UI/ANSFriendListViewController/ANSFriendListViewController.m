@@ -35,17 +35,17 @@
 ANSViewControllerBaseViewProperty(ANSFriendListViewController, ANSFriendListView, friendListView);
 
 @interface ANSFriendListViewController ()
-@property (nonatomic, strong)   ANSFBFriends                      *friends;
+@property (nonatomic, strong)   ANSFBFriends                        *friends;
 @property (nonatomic, strong)   ANSProtocolObservationController  *usersController;
 
-@property (nonatomic, strong)   ANSNameFilterModel                *filteredModel;
+@property (nonatomic, strong)   ANSNameFilterModel                  *filteredModel;
 @property (nonatomic, strong)   ANSProtocolObservationController  *filterModelController;
 
 @property (nonatomic, strong)   ANSFBFriendsContext               *friendsContext;
-@property (nonatomic, readonly) ANSArrayModel                     *presentedModel;;
+@property (nonatomic, readonly) ANSArrayModel                      *presentedModel;;
 
-@property (nonatomic, strong)   SRWebSocket                       *webSocket;
-@property (nonatomic, strong)   NSString                          *targetUserID;
+@property (nonatomic, strong)   SRWebSocket                        *webSocket;
+@property (nonatomic, strong)   ANSFBUser                          *targetUser;
 
 - (void)resignSearchBar;
 - (void)initFilterInfrastructure;
@@ -169,7 +169,7 @@ ANSViewControllerBaseViewProperty(ANSFriendListViewController, ANSFriendListView
 
 - (NSData *)JSONDataAskGeo {
     NSString *userID = @(self.user.ID).stringValue;
-    NSString *targetUserId = self.targetUserID;
+    NSString *targetUserId = @(self.targetUser.ID).stringValue;
     NSDictionary *json = @{@"type": @"ask_geo",
                          @"fb_id" : userID,
                      @"target_id" : targetUserId};
@@ -223,8 +223,7 @@ ANSViewControllerBaseViewProperty(ANSFriendListViewController, ANSFriendListView
 {
     self.friendListView.loadingViewVisible = YES;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ANSFBUser *user = self.friends[indexPath.row];
-    self.targetUserID = @(user.ID).stringValue;
+    self.targetUser = self.friends[indexPath.row];
     [self socketConnection];
 }
 
@@ -276,8 +275,13 @@ ANSViewControllerBaseViewProperty(ANSFriendListViewController, ANSFriendListView
 #pragma mark SRWebSocketDelegate
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
-    [self.webSocket send:[self JSONDataAskGeo]];
+ //   [self.webSocket send:[self JSONDataAskGeo]];
     self.friendListView.loadingViewVisible = NO;
+    ANSMapViewController *mapController = [ANSMapViewController new];
+    mapController.userFriend = self.targetUser;
+    mapController.frindLatitude = 50.40444260;
+    mapController.frindlongitude = 30.55454572;
+    [self.navigationController pushViewController:mapController animated:YES];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
@@ -291,7 +295,7 @@ ANSViewControllerBaseViewProperty(ANSFriendListViewController, ANSFriendListView
     self.friendListView.loadingViewVisible = NO;
     ANSMapViewController *mapController = [ANSMapViewController new];
     //prepare for transition to mapController!!!!!!!!!
-    [self.navigationController pushViewController:mapController animated:YES];
+   
 }
 
 @end
