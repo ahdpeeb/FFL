@@ -29,6 +29,7 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
 @property (nonatomic, strong)   NSHashTable        *annotationViews;
 @property (nonatomic, strong)   MKPolyline         *route;
 @property (nonatomic, assign)   BOOL                shouldDrawRoute;
+@property (nonatomic, strong)   MKDirectionsRequest *directionReques;
 
 - (void)showFriendOnMap;
 - (CLLocationDistance)distanseToUserLocation:(CLLocation *)userLocation;
@@ -91,6 +92,20 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
     }
 }
 
+- (void)setDirectionReques:(MKDirectionsRequest *)directionReques {
+    if (_directionReques != directionReques) {
+        _directionReques = directionReques;
+
+        MKPlacemark *sourseMark = [[MKPlacemark alloc] initWithCoordinate:self.userLocation.coordinate];
+        directionReques.source = [[MKMapItem alloc] initWithPlacemark:sourseMark];
+        
+        MKPlacemark *destinationMark = [[MKPlacemark alloc] initWithCoordinate:self.friendLocation.coordinate];
+        directionReques.destination = [[MKMapItem alloc] initWithPlacemark:destinationMark];
+        
+        directionReques.transportType = MKDirectionsTransportTypeWalking;
+    }
+}
+
 #pragma mark -
 #pragma mark BarButton items
 
@@ -130,7 +145,7 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
     return [self.friendLocation distanceFromLocation:userLocation];
 }
 
-- (void)    :(double)zoomLvl {
+- (void)resizeViewsWithZoomLvl:(double)zoomLvl {
     double scale = -1 * sqrt((double)(1 - pow((zoomLvl/20.0), 2.0))) + 1.1;
     CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
     for (UIView *view in self.annotationViews) {
@@ -157,11 +172,16 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
 }
 
 - (void)drawRoute {
-    CLLocationCoordinate2D coordinateArray[2];
-    coordinateArray[0] = self.friendLocation.coordinate;
-    coordinateArray[1] = self.userLocation.coordinate;
-    MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinateArray count:2];
-    self.route = route;
+    self.directionReques = [MKDirectionsRequest new];
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:self.directionReques];
+    if (!directions.isCalculating) {
+        [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+            if (!error) {
+                MKRoute *route = response.routes[0];
+                self.route = route.polyline;
+            }
+        }];
+    }
 }
 
 #pragma mark -
@@ -213,6 +233,7 @@ ANSViewControllerBaseViewProperty(ANSMapViewController, ANSMapView, mapView);
     MKPolylineRenderer *line = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
     line.strokeColor = [UIColor lightGrayColor];
     line.lineWidth = 2.0;
+    
     return line;
 }
 
